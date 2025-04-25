@@ -2,8 +2,6 @@
 using DomainLayer.Entities;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
@@ -26,7 +24,7 @@ namespace WebAPI.Controllers
 
         // GET api/<EmployeeController>/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             var data = await _employee.GetByIdAsync(id);
             return Ok(data);
@@ -34,7 +32,7 @@ namespace WebAPI.Controllers
 
         // POST api/<EmployeeController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Employee employeeDto)
+        public async Task<IActionResult> Add([FromBody] Employee employeeDto)
         {
             var result = await _employee.AddAsync(employeeDto);
             return Ok(result);

@@ -9,5 +9,5 @@ public class AppDbContext : DbContext
     {
 
     }
-    public DbSet<Employee> Employees { get; set; } = null!;
+    public DbSet<Employee> Employees { get; set; }
 }
