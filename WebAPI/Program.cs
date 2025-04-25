@@ -1,6 +1,5 @@
-using ApplicationLayer.Contracts;
 using InfrastructureLayer.Data;
-using InfrastructureLayer.Implementations;
+using InfrastructureLayer.Handlers.EmployeeHandler;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
 
@@ -13,16 +12,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(o => o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddScoped<IEmployee, EmployeeRepo>();
-
-//builder.Services.AddCors(options =>
-//    options.AddDefaultPolicy(builder =>
-//    {
-//        builder.AllowAnyOrigin()//WithOrigins("https://localhost:7087/")
-//            .AllowAnyHeader()
-//            .AllowAnyMethod()
-//            .WithHeaders(HeaderNames.ContentType);
-//    }));
+builder.Services.AddMediatR(cfg => 
+    cfg.RegisterServicesFromAssembly(typeof(GetEmployeeListHandler).Assembly));
 
 var app = builder.Build();
 
@@ -33,12 +24,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
     app.UseCors(policy =>
-    {
-        policy.WithOrigins("https://localhost:7087/")
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            .WithHeaders(HeaderNames.ContentType);
-    });
+       {
+           policy.WithOrigins("https://localhost:7087/")
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+               .WithHeaders(HeaderNames.ContentType);
+       });
 }
 
 
